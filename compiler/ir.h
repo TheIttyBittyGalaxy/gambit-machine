@@ -95,6 +95,8 @@ struct C_Expression
         BINARY_EQUAL,
         BINARY_AND,
         BINARY_OR,
+
+        SUB_SCRIPT,
     };
 
     Kind kind;

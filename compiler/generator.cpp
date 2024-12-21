@@ -228,6 +228,14 @@ void Generator::generate_expression(size_t expression_index)
         generate_expression(expr.rhs);
         break;
     }
+    case C_Expression::SUB_SCRIPT:
+    {
+        generate_expression(expr.lhs);
+        write("[");
+        generate_expression(expr.rhs);
+        write("]");
+        break;
+    }
 
     default:
         throw CompilerError("Could not generate C_Expression " + to_string(expr.kind));

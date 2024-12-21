@@ -277,13 +277,14 @@ size_t Converter::convert_expression(Expression apm)
     if (IS_PTR(apm, IndexWithExpression))
     {
         auto index_with_expression = AS_PTR(apm, IndexWithExpression);
-        // TODO: Implement
+        expr.kind = C_Expression::SUB_SCRIPT;
+        expr.lhs = convert_expression(index_with_expression->subject);
+        expr.rhs = convert_expression(index_with_expression->index);
     }
 
     if (IS_PTR(apm, IndexWithIdentity))
     {
-        auto index_with_identity = AS_PTR(apm, IndexWithIdentity);
-        // TODO: Implement
+        throw CompilerError("Attempt to convert IndexWithIdentity expression. This should have already been resolved to a PropertyAccess or EnumValue");
     }
 
     // Calls
