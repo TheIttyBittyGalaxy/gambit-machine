@@ -92,6 +92,19 @@ vector<Scope::LookupValue> fetch_all_overloads(ptr<Scope> scope, string identity
     }
 }
 
+// EXPRESSION ANALYSIS
+
+bool is_callable(Expression expr)
+{
+    if (IS_PTR(expr, ExpressionLiteral))
+        return is_callable(AS_PTR(expr, ExpressionLiteral)->expr);
+
+    if (IS_PTR(expr, Procedure))
+        return true;
+
+    return false;
+}
+
 // PATTERN ANALYSIS
 
 Pattern determine_expression_pattern(Expression expression)

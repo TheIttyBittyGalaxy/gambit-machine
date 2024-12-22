@@ -140,6 +140,9 @@ using Expression = variant<
     ptr<EnumValue>,
     ptr<Variable>,
 
+    // Procedures
+    ptr<Procedure>,
+
     // Operations
     ptr<Unary>,
     ptr<Binary>,
@@ -557,6 +560,9 @@ identity_of(Scope::LookupValue value);
 
 [[nodiscard]] Scope::LookupValue fetch(ptr<Scope> scope, string identity);
 [[nodiscard]] vector<Scope::LookupValue> fetch_all_overloads(ptr<Scope> scope, string identity);
+
+// Expression analysis
+[[nodiscard]] bool is_callable(Expression expr);
 
 // Pattern analysis
 [[nodiscard]] Pattern determine_expression_pattern(Expression expr);

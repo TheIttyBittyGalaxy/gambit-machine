@@ -406,6 +406,8 @@ string to_json(const Expression &node, const size_t &depth)
     VARIANT_PTR_IDENTITY(EnumValue);
     VARIANT_PTR_IDENTITY(Variable);
 
+    VARIANT_PTR_IDENTITY(Procedure);
+
     VARIANT_PTR(Unary);
     VARIANT_PTR(Binary);
 

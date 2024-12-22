@@ -309,9 +309,15 @@ ptr<ExpressionLiteral> Resolver::resolve_literal_as_expression(UnresolvedLiteral
             {
                 expr = AS_PTR(resolved, Variable);
             }
+            else if (IS_PTR(resolved, Procedure))
+            {
+                expr = AS_PTR(resolved, Procedure);
+            }
             else
             {
                 // FIXME: Make error more informative by saying _what_ the resolved object is (e.g. an entity, a type, etc)
+                // FIXME: Should this actually be delegated to the checker? i.e. should we allow anything that can be declared
+                //        in a scope to be a expression, and then leave it up to the checker to check that it's actually valid?
                 source->log_error("Expected value, got '" + identity + "'", identity_literal->span);
                 expr = CREATE(InvalidExpression);
             }
@@ -363,12 +369,12 @@ void Resolver::resolve_instance_list(ptr<InstanceList> list, ptr<Scope> scope, o
 
 void Resolver::resolve_call(ptr<Call> call, ptr<Scope> scope, optional<Pattern> pattern_hint)
 {
-    // TODO: Resolve callee
-
+    call->callee = resolve_expression(call->callee, scope);
     for (size_t i = 0; i < call->arguments.size(); i++)
     {
         auto argument = call->arguments[i];
-        call->arguments[i].value = resolve_expression(argument.value, scope, pattern_hint);
+        // TODO: The pattern hint for each arguments should be the pattern of the corresponding parameter
+        call->arguments[i].value = resolve_expression(argument.value, scope);
     }
 }
 

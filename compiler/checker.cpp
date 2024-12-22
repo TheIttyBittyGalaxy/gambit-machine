@@ -251,7 +251,12 @@ void Checker::check_instance_list(ptr<InstanceList> list, ptr<Scope> scope)
 
 void Checker::check_call(ptr<Call> call, ptr<Scope> scope)
 {
-    // TODO: Check callee / arguments
+    if (!is_callable(call->callee))
+    {
+        source->log_error("Cannot call value which is not a procedure.", call->span);
+    }
+
+    // TODO: Check arguments are valid
 
     for (auto &argument : call->arguments)
         check_expression(argument.value, scope);
