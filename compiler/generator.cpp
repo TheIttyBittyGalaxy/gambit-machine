@@ -48,8 +48,14 @@ void Generator::generate_function_declaration(C_Function funct)
 {
     generate_function_signature(funct);
 
-    size_t first_stmt = funct.body + 1;
     auto block = ir.statements[funct.body];
+    if (block.statement_count == 0)
+    {
+        write("{}");
+        return;
+    }
+
+    size_t first_stmt = funct.body + 1;
     size_t last_stmt = funct.body + block.statement_count;
 
     vector<size_t> close_block_after;
